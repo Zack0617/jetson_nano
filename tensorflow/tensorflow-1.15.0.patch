@@ -10,3 +10,51 @@ diff -Nrup a/third_party/nccl/build_defs.bzl.tpl b/third_party/nccl/build_defs.b
  
      return cuda_default_copts() + select({
          "@local_config_cuda//cuda:using_nvcc": [
+diff --git a/tensorflow/python/eager/pywrap_tfe_src.cc b/tensorflow/python/eager/pywrap_tfe_src.cc
+index 9ce500b..726c4c5 100644
+--- a/tensorflow/python/eager/pywrap_tfe_src.cc
++++ b/tensorflow/python/eager/pywrap_tfe_src.cc
+@@ -1319,7 +1319,7 @@ static PyTypeObject TFE_Py_Tape_Type = {
+     sizeof(TFE_Py_Tape),                          /* tp_basicsize */
+     0,                                            /* tp_itemsize */
+     &TFE_Py_Tape_Delete,                          /* tp_dealloc */
+-    nullptr,                                      /* tp_print */
++    NULL,                                         /* tp_print */
+     nullptr,                                      /* tp_getattr */
+     nullptr,                                      /* tp_setattr */
+     nullptr,                                      /* tp_reserved */
+@@ -1353,7 +1353,7 @@ static PyTypeObject TFE_Py_ForwardAccumulator_Type = {
+     sizeof(TFE_Py_ForwardAccumulator),                      /* tp_basicsize */
+     0,                                                      /* tp_itemsize */
+     &TFE_Py_ForwardAccumulatorDelete,                       /* tp_dealloc */
+-    nullptr,                                                /* tp_print */
++    NULL,                                                   /* tp_print */
+     nullptr,                                                /* tp_getattr */
+     nullptr,                                                /* tp_setattr */
+     nullptr,                                                /* tp_reserved */
+diff --git a/tensorflow/python/lib/core/bfloat16.cc b/tensorflow/python/lib/core/bfloat16.cc
+index fde3a83..e0da0f4 100644
+--- a/tensorflow/python/lib/core/bfloat16.cc
++++ b/tensorflow/python/lib/core/bfloat16.cc
+@@ -317,7 +317,7 @@ PyTypeObject PyBfloat16_Type = {
+     sizeof(PyBfloat16),                        // tp_basicsize
+     0,                                         // tp_itemsize
+     nullptr,                                   // tp_dealloc
+-    nullptr,                                   // tp_print
++    NULL,                                      // tp_print
+     nullptr,                                   // tp_getattr
+     nullptr,                                   // tp_setattr
+     nullptr,                                   // tp_compare / tp_reserved
+diff --git a/tensorflow/python/lib/core/ndarray_tensor_bridge.cc b/tensorflow/python/lib/core/ndarray_tensor_bridge.cc
+index 0d58385..43ab92c 100644
+--- a/tensorflow/python/lib/core/ndarray_tensor_bridge.cc
++++ b/tensorflow/python/lib/core/ndarray_tensor_bridge.cc
+@@ -86,7 +86,7 @@ PyTypeObject TensorReleaserType = {
+     0,                                /* tp_itemsize */
+     /* methods */
+     TensorReleaser_dealloc,      /* tp_dealloc */
+-    nullptr,                     /* tp_print */
++    NULL,                        /* tp_print */
+     nullptr,                     /* tp_getattr */
+     nullptr,                     /* tp_setattr */
+     nullptr,                     /* tp_compare */

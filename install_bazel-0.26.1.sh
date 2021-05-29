@@ -4,7 +4,7 @@
 
 set -e
 
-folder=${HOME}/src
+folder=/tmp/src
 mkdir -p $folder
 
 echo "** Install requirements"

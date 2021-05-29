@@ -26,7 +26,7 @@ case ${chip_id} in
     ;;
 esac
 
-folder=${HOME}/src
+folder=/tmp/src
 mkdir -p $folder
 
 if pip3 list | grep tensorflow > /dev/null; then
@@ -41,9 +41,9 @@ fi
 
 echo "** Install requirements"
 sudo apt-get install -y libhdf5-serial-dev hdf5-tools
-sudo pip3 install -U pip six numpy wheel setuptools mock h5py
-sudo pip3 install -U keras_applications
-sudo pip3 install -U keras_preprocessing
+sudo pip3 install -U pip six==1.16.0 numpy==1.18.5 wheel setuptools mock==3.0.5 h5py==3.1.0
+sudo pip3 install -U keras_applications==1.0.8
+sudo pip3 install -U keras_preprocessing==1.1.2
 
 export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
@@ -62,9 +62,9 @@ export TMP=/tmp
 PYTHON_BIN_PATH=$(which python3) \
 PYTHON_LIB_PATH=$(python3 -c 'import site; print(site.getsitepackages()[0])') \
 TF_CUDA_COMPUTE_CAPABILITIES=${cuda_compute} \
-TF_CUDA_VERSION=10.0 \
+TF_CUDA_VERSION=10.2 \
 TF_CUDA_CLANG=0 \
-TF_CUDNN_VERSION=7 \
+TF_CUDNN_VERSION=8 \
 TF_TENSORRT_VERSION=${trt_version} \
 CUDA_TOOLKIT_PATH=/usr/local/cuda \
 CUDNN_INSTALL_PATH=/usr/lib/aarch64-linux-gnu \
@@ -74,16 +74,16 @@ TF_ENABLE_XLA=0 \
 TF_NEED_OPENCL_SYCL=0 \
 TF_NEED_COMPUTECPP=0 \
 TF_NEED_ROCM=0 \
-TF_NEED_CUDA=1 \
-TF_NEED_TENSORRT=1 \
+TF_NEED_CUDA=0 \
+TF_NEED_TENSORRT=0 \
 TF_NEED_OPENCL=0 \
 TF_NEED_MPI=0 \
 GCC_HOST_COMPILER_PATH=$(which gcc) \
 CC_OPT_FLAGS="-march=native" \
 TF_SET_ANDROID_WORKSPACE=0 \
     ./configure
-bazel build --config=opt \
-	    --config=cuda \
+bazel --output_user_root=/tmp/cache build \
+            --config=opt --config=noaws --config=nogcp --config=nohdfs --config=nokafka --config=noignite \
 	    --local_resources=${local_resources} \
             //tensorflow/tools/pip_package:build_pip_package
 bazel-bin/tensorflow/tools/pip_package/build_pip_package wheel/tensorflow_pkg
