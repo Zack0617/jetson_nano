@@ -58,3 +58,28 @@ index 0d58385..43ab92c 100644
      nullptr,                     /* tp_getattr */
      nullptr,                     /* tp_setattr */
      nullptr,                     /* tp_compare */
+diff --git a/tensorflow/python/platform/tf_logging.py b/tensorflow/python/platform/tf_logging.py
+index 86a4957c9da6a..a397393e7f7eb 100644
+--- a/tensorflow/python/platform/tf_logging.py
++++ b/tensorflow/python/platform/tf_logging.py
+@@ -57,9 +57,18 @@ def _get_caller(offset=3):
+     f = f.f_back
+   return None, None
+ 
+-
+ # The definition of `findCaller` changed in Python 3.2
+-if _sys.version_info.major >= 3 and _sys.version_info.minor >= 2:
++if _sys.version_info.major >= 3 and _sys.version_info.minor >= 8:
++  def _logger_find_caller(stack_info=False, stacklevel=1):  # pylint: disable=g-wrong-blank-lines
++    code, frame = _get_caller(4)
++    sinfo = None
++    if stack_info:
++      sinfo = '\n'.join(_traceback.format_stack())
++    if code:
++      return (code.co_filename, frame.f_lineno, code.co_name, sinfo)
++    else:
++      return '(unknown file)', 0, '(unknown function)', sinfo
++elif _sys.version_info.major >= 3 and _sys.version_info.minor >= 2:
+   def _logger_find_caller(stack_info=False):  # pylint: disable=g-wrong-blank-lines
+     code, frame = _get_caller(4)
+     sinfo = None
