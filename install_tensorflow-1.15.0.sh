@@ -41,7 +41,7 @@ fi
 
 echo "** Install requirements"
 sudo apt-get install -y libhdf5-serial-dev hdf5-tools
-sudo pip3 install -U pip six==1.16.0 numpy==1.18.5 wheel setuptools mock==3.0.5 h5py==3.1.0
+sudo pip3 install -U pip six==1.16.0 numpy==1.18.5 wheel setuptools==49.6.0 mock==3.0.5 h5py==3.1.0
 sudo pip3 install -U keras_applications==1.0.8
 sudo pip3 install -U keras_preprocessing==1.1.2
 
